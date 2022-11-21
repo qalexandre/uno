@@ -2,6 +2,7 @@ import shape from "../assets/shape_card.svg";
 import block from "../assets/block.png";
 import blockBlack from "../assets/block_black.png";
 import icon from "../assets/icon.svg";
+import changeColor from "../assets/changeColor.svg";
 import plus4 from "../assets/plus4.svg";
 
 import clsx from "clsx";
@@ -13,7 +14,7 @@ type CardProps = {
   type: CardType;
 };
 
-type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back";
+type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back" | "changeColor";
 
 type Color = "red" | "green" | "orange" | "gray";
 
@@ -146,26 +147,36 @@ export const Card = ({ size, number, color, type }: CardProps) => {
           </div>
         </div>
       );
-    case "plus4":
+    case "changeColor":
       return (
         <div className={clsx(`flex flex-col items-center justify-between relative z-10 rounded font-skranji bg-gray-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard }
         )}
         >
-          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard}, { 'px-[0.46rem] pt-[0.46rem]': smallCard} )}>
-            <div className={clsx('bg-gray_card-100', {'h-3 w-2': largeCard}, {'h-[0.62rem] w-[0.45rem]': smallCard})} ></div>
-            <div className={clsx('bg-orange_card-100', {'h-3 w-2': largeCard}, {'h-[0.62rem] w-[0.45rem]': smallCard})}></div>
+          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard }, { 'px-[0.46rem] pt-[0.46rem]': smallCard })}>
+            <div className={clsx('bg-gray_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })} ></div>
+            <div className={clsx('bg-orange_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })}></div>
           </div>
 
           <div className="flex items-center w-full h-full justify-center">
-            <img src={plus4} className={clsx({'w-[2,87rem] h-[3.5rem]': largeCard }, { 'w-[2.31rem] h-[2.68rem]': smallCard})} />
+            <img src={changeColor} className={clsx({ 'w-[2,87rem] h-[3.5rem]': largeCard }, { 'w-[2.31rem] h-[2.68rem]': smallCard })} />
           </div>
 
-          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pb-2': largeCard}, { 'px-[0.46rem] pb-[0.46rem]': smallCard} )}>
-            <div className={clsx('bg-green_card-100', {'h-3 w-2': largeCard}, {'h-[0.62rem] w-[0.45rem]': smallCard})} ></div>
-            <div className={clsx('bg-red_card-100', {'h-3 w-2': largeCard}, {'h-[0.62rem] w-[0.45rem]': smallCard})}></div>
+          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pb-2': largeCard }, { 'px-[0.46rem] pb-[0.46rem]': smallCard })}>
+            <div className={clsx('bg-green_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })} ></div>
+            <div className={clsx('bg-red_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })}></div>
           </div>
+        </div>
+      );
+    case "plus4":
+      return (
+        <div className={clsx(`flex relative z-10 rounded font-skranji bg-black-900`,
+          { 'w-w-largeCard h-h-largeCard': largeCard },
+          { 'w-w-smallCard h-h-smallCard': smallCard }
+        )}
+        >
+            <img src={plus4} className="w-full h-full" />
         </div>
       );
     default:
