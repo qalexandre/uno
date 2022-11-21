@@ -1,7 +1,8 @@
 export type Group = {
     code: string;
     players?: Player[];
-    cards?: string[]
+    cards?: string[];
+    lastCard?: string;
 }
 
 export type Player = {

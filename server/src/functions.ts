@@ -37,6 +37,9 @@ export function generateCards(room: Group){
             cardsSelected.push(card)
          }
          room.players![index].cards = cardsSelected;
+         const last = (Math.floor(Math.random() * cards.length))
+            room.lastCard = cards[last]
+            cards.splice(last, 1)
          })
          room.cards = cards;
          return room;

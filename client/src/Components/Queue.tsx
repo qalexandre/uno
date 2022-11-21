@@ -1,4 +1,5 @@
 import icon from "../assets/icon.svg";
+import { useRoom } from "../hooks/room";
 import { Group } from "../interfaces";
 
 type QueueProps = {
@@ -8,7 +9,9 @@ type QueueProps = {
   startGame: () => void;
 };
 
-export const Queue = ({ room, socketId, leftGroup, startGame }: QueueProps) => {
+export const Queue = ({ socketId, leftGroup, startGame }: QueueProps) => {
+  const {room} = useRoom();
+
   const owner = room.players?.find((p) => p.isOwner == true);
   return (
     <div className="relative flex flex-col items-center bg-black-900 w-w-login h-h-login">

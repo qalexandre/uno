@@ -37,7 +37,9 @@ app.post("/create", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.emit("connected", socket.id);
+  console.log(socket.id)
   socket.on("join", (name, code) => {
+    console.log(name)
     let isOwner = false;
     const room = rooms.findIndex((r) => r.code == code);
     if (room < 0) return socket.emit("error", "Grupo não existente");
@@ -51,7 +53,7 @@ io.on("connection", (socket) => {
     };
     rooms[room].players?.push(player);
     socket.join(code);
-    socket.to(code).emit("update-queue", rooms[room]);
+    socket.to(code).emit("updateQueue", rooms[room]);
     socket.emit("joined", rooms[room]);
     console.log(player);
     console.log(rooms[room]);
@@ -75,7 +77,7 @@ io.on("connection", (socket) => {
     else {
       if (player?.isOwner) rooms[index].players![0].isOwner = true;
     }
-    socket.to(code).emit("update-queue", rooms[index]);
+    socket.to(code).emit("updateQueue", rooms[index]);
   });
 
   socket.on("disconnect", () => {

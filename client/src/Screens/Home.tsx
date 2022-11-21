@@ -1,22 +1,67 @@
+import { useEffect, useState } from "react";
 import { Join } from "../Components/Join";
 import { Queue } from "../Components/Queue";
-import { Group } from "../interfaces";
+import { ClientToServerEvents, Group, ServerToClientEvents } from "../interfaces";
+import {useSocket} from 'socket.io-react-hook'
+import { ENDPOINT } from "../App";
+import axios from "axios";
+import { useRoom } from "../hooks/room";
+import { useNavigate } from "react-router-dom";
 
-export type HomeProps = {
-  createGroup: (name: string) => void;
-  joinGroup: (name: string, code: string) => void;
-  room?: Group;
-  isQueue: boolean;
-  socketId: string;
-  leftGroup: () => void;
-  startGame: () => void;
-};
 
-export const Home = ({ createGroup, joinGroup, isQueue, room, socketId, leftGroup, startGame }: HomeProps) => {
+export const Home = () => {
+  const {socket, connected} = useSocket<ServerToClientEvents, ClientToServerEvents>(ENDPOINT)
+  const {setRoom, room} = useRoom();
+
+  const [isQueue, setIsQueue]= useState(false);
+
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    socket.on('joined', (room: Group) => {
+      enterRoom(room)
+    })
+    
+
+    socket.on('updateQueue', (room) => {
+      setRoom(room)
+    })
+
+    socket.on('startedGame', (room) => {
+      setRoom(room)
+      navigation('/cardtable')
+    })
+
+  }, [socket])
+
+  const createGroup = async (name: string) => {
+    const {data} = await axios.post(ENDPOINT + '/create')
+    socket.emit('join', name, data.code);
+  };
+
+  const joinGroup = (name: string, code: string) => {
+    socket.emit('join', name, code);
+  };
+
+  const enterRoom = (room: Group) => {
+    setRoom(room);
+    setIsQueue(true);
+  }
+
+  const leftGroup = () => {
+    socket.emit('left', room.code);
+    setRoom({} as Group)
+    setIsQueue(false);
+  }
+
+  const startGame = () => {
+    socket.emit('startGame', room);
+  }
+
   return (
     <div className="bg-background-pattern w-screen h-screen bg-cover bg-opacity-25 flex items-center justify-center">
       {isQueue ? (
-        <Queue startGame={startGame} leftGroup={leftGroup} socketId={socketId} room={room!} />
+        <Queue startGame={startGame} leftGroup={leftGroup} socketId={socket.id} room={room!} />
       ) : (
         <Join createGroup={createGroup} joinGroup={joinGroup} />
       )}
