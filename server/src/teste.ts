@@ -28,7 +28,7 @@ const cards = [
 
 function choose(){
     let players: any[] = []
-    for( let a = 1; a< 2; a ++){
+    for( let a = 1; a < 9 ; a ++){
         let cardsSelected: string[] = []
         for ( var i = 0; i < 7; i++ ) {
             const index = (Math.floor(Math.random() * cards.length))

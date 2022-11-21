@@ -2,6 +2,10 @@ import shape from "../assets/shape_card.svg";
 import block from "../assets/block.png";
 import blockBlack from "../assets/block_black.png";
 import icon from "../assets/icon.svg";
+import changeColor from "../assets/changeColor.svg";
+import plus4 from "../assets/plus4.svg";
+
+import clsx from "clsx";
 
 type CardProps = {
   size: number;
@@ -10,11 +14,14 @@ type CardProps = {
   type: CardType;
 };
 
-type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back";
+type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back" | "changeColor";
 
 type Color = "red" | "green" | "orange" | "gray";
 
 export const Card = ({ size, number, color, type }: CardProps) => {
+
+  const largeCard = size === 1
+  const smallCard = size === 2
   const getColor = () => {
     switch (color) {
       case "gray":
@@ -56,37 +63,39 @@ export const Card = ({ size, number, color, type }: CardProps) => {
     case "normal":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-card`}
+          className={clsx(`flex relative rounded font-card`,
+            { 'w-w-largeCard h-h-largeCard': largeCard },
+            { 'w-w-smallCard h-h-smallCard': smallCard }
+          )}
           style={{ backgroundColor: getColor() }}
         >
           <p
-            className={`absolute top-1 left-1 text-white ${
-              getSize()?.number_2
-            }`}
-          >
+            className={`absolute top-1 left-1 text-white ${getSize()?.number_2
+              }`}>
             {number}
           </p>
           <p
-            className={`absolute self-end right-1 text-white  ${
-              getSize()?.number_2
-            }`}
+            className={`absolute self-end right-1 text-white  ${getSize()?.number_2
+              }`}
           >
             {number}
           </p>
           <div className="flex items-center w-full h-full justify-center">
-            <img src={shape} className={`h-[${getSize()?.shape}]`} />
-            <p className={`absolute  ${getSize()?.number_1}`}>{number}</p>
+            <img src={shape} className={clsx(
+              { 'h-[6.87rem]': largeCard },
+              { 'h-[5.6rem]': smallCard }
+            )} />
+            <p className={`absolute text-black-800 ${getSize()?.number_1}`}>{number}</p>
           </div>
         </div>
       );
     case "block":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-card`}
+          className={clsx(`flex relative rounded font-card`,
+            { 'w-w-largeCard h-h-largeCard': largeCard },
+            { 'w-w-smallCard h-h-smallCard': smallCard }
+          )}
           style={{ backgroundColor: getColor() }}
         >
           <img
@@ -94,9 +103,8 @@ export const Card = ({ size, number, color, type }: CardProps) => {
             src={block}
           />
           <img
-            className={`absolute self-end bottom-1 right-1 ${
-              getSize()?.icon_2
-            }`}
+            className={`absolute self-end bottom-1 right-1 ${getSize()?.icon_2
+              }`}
             src={block}
           />
           <div className="flex items-center w-full h-full justify-center">
@@ -108,23 +116,16 @@ export const Card = ({ size, number, color, type }: CardProps) => {
     case "plus2":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-skranji`}
+          className={clsx(`flex relative rounded font-skranji`,
+            { 'w-w-largeCard h-h-largeCard': largeCard },
+            { 'w-w-smallCard h-h-smallCard': smallCard }
+          )}
           style={{ backgroundColor: getColor() }}
         >
-          <p
-            className={`absolute top-1 left-1 text-white ${
-              getSize()?.number_2
-            }`}
-          >
+          <p className={`absolute top-1 left-1 text-white ${getSize()?.number_2}`}>
             +2
           </p>
-          <p
-            className={`absolute self-end right-1 text-white  ${
-              getSize()?.number_2
-            }`}
-          >
+          <p className={`absolute self-end right-1 text-white  ${getSize()?.number_2}`}>
             +2
           </p>
           <div className="flex items-center w-full h-full justify-center">
@@ -136,13 +137,46 @@ export const Card = ({ size, number, color, type }: CardProps) => {
     case "back":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-skranji bg-black-800`}
+          className={clsx(`flex relative rounded font-skranji bg-black-900`,
+            { 'w-w-largeCard h-h-largeCard': largeCard },
+            { 'w-w-smallCard h-h-smallCard': smallCard }
+          )}
         >
           <div className="flex items-center w-full h-full justify-center">
             <img src={icon} className={`h-[${getSize()?.shape}]`} />
           </div>
+        </div>
+      );
+    case "changeColor":
+      return (
+        <div className={clsx(`flex flex-col items-center justify-between relative z-10 rounded font-skranji bg-gray-900`,
+          { 'w-w-largeCard h-h-largeCard': largeCard },
+          { 'w-w-smallCard h-h-smallCard': smallCard }
+        )}
+        >
+          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard }, { 'px-[0.46rem] pt-[0.46rem]': smallCard })}>
+            <div className={clsx('bg-gray_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })} ></div>
+            <div className={clsx('bg-orange_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })}></div>
+          </div>
+
+          <div className="flex items-center w-full h-full justify-center">
+            <img src={changeColor} className={clsx({ 'w-[2,87rem] h-[3.5rem]': largeCard }, { 'w-[2.31rem] h-[2.68rem]': smallCard })} />
+          </div>
+
+          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pb-2': largeCard }, { 'px-[0.46rem] pb-[0.46rem]': smallCard })}>
+            <div className={clsx('bg-green_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })} ></div>
+            <div className={clsx('bg-red_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })}></div>
+          </div>
+        </div>
+      );
+    case "plus4":
+      return (
+        <div className={clsx(`flex relative z-10 rounded font-skranji bg-black-900`,
+          { 'w-w-largeCard h-h-largeCard': largeCard },
+          { 'w-w-smallCard h-h-smallCard': smallCard }
+        )}
+        >
+            <img src={plus4} className="w-full h-full" />
         </div>
       );
     default:

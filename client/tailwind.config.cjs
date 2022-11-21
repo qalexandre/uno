@@ -21,7 +21,7 @@ module.exports = {
           600: "#E5CD3D",
         },
         black: {
-          800: "#0B0B25"
+          900: "#0B0B25"
         },
         gray: {
           100: "#E1E1E6",
@@ -32,7 +32,8 @@ module.exports = {
         },
         blue: {
           700: '#0059C2',
-          800: '#191944'
+          800: '#191944',
+          900: "#0B0B25",
         },
         red_card: {
           100: '#F13556'
@@ -50,6 +51,10 @@ module.exports = {
       spacing: {
         'w-login': '22rem',
         'h-login': '35rem',
+        'h-largeCard': '9.43rem',
+        'h-smallCard': '7.58rem',
+        'w-largeCard': '6.25rem',
+        'w-smallCard': '5rem',
       }
     },
     backgroundImage: {

@@ -1,10 +1,13 @@
-import { Home } from "./Screens/Home";
+
 import { io, Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
 import axios from 'axios'
 import { Group } from "./interfaces";
 const ENDPOINT = "http://localhost:3333";
 let socket: Socket;
+import { BrowserRouter } from "react-router-dom"
+import { Router } from "./routes/Router"
+
 
 function App() {
   const [socketId, setSocketId] = useState('');
@@ -46,7 +49,11 @@ function App() {
     setIsQueue(true);
   }
 
-  return <Home isQueue={isQueue} room={room} createGroup={createGroup} joinGroup={joinGroup} />;
+  return (
+    <BrowserRouter>
+      <Router isQueue={isQueue} room={room}  createGroup={createGroup} joinGroup={joinGroup} />
+    </BrowserRouter>
+  )
 }
 
 export default App;
