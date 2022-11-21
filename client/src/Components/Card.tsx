@@ -2,6 +2,8 @@ import shape from "../assets/shape_card.svg";
 import block from "../assets/block.png";
 import blockBlack from "../assets/block_black.png";
 import icon from "../assets/icon.svg";
+  
+import clsx from "clsx";
 
 type CardProps = {
   size: number;
@@ -15,6 +17,9 @@ type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back";
 type Color = "red" | "green" | "orange" | "gray";
 
 export const Card = ({ size, number, color, type }: CardProps) => {
+
+  const largeCard = size === 1
+  const smallCard = size === 2
   const getColor = () => {
     switch (color) {
       case "gray":
@@ -56,37 +61,40 @@ export const Card = ({ size, number, color, type }: CardProps) => {
     case "normal":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-card`}
+          className={clsx(`flex relative rounded font-card`,
+            { 'w-[6.25rem]': largeCard, 'h-[9.43rem]': largeCard },
+            { 'w-[5rem]': smallCard, 'h-[7.58rem]': smallCard }
+          )}
           style={{ backgroundColor: getColor() }}
         >
           <p
-            className={`absolute top-1 left-1 text-white ${
-              getSize()?.number_2
-            }`}
+            className={`absolute top-1 left-1 text-white ${getSize()?.number_2
+              }`}
           >
             {number}
           </p>
           <p
-            className={`absolute self-end right-1 text-white  ${
-              getSize()?.number_2
-            }`}
+            className={`absolute self-end right-1 text-white  ${getSize()?.number_2
+              }`}
           >
             {number}
           </p>
           <div className="flex items-center w-full h-full justify-center">
-            <img src={shape} className={`h-[${getSize()?.shape}]`} />
-            <p className={`absolute  ${getSize()?.number_1}`}>{number}</p>
+            <img src={shape} className={clsx(
+              { 'h-[6.87rem]': largeCard },
+              { 'h-[5.6rem]': smallCard }
+            )} />
+            <p className={`absolute text-black-800 ${getSize()?.number_1}`}>{number}</p>
           </div>
         </div>
       );
     case "block":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-card`}
+          className={clsx(`flex relative rounded font-card`,
+            { 'w-w-largeCard': largeCard, 'h-h-largeCard': largeCard },
+            { 'w-w-smallCard': smallCard, 'h-h-smallCard': smallCard }
+          )}
           style={{ backgroundColor: getColor() }}
         >
           <img
@@ -94,9 +102,8 @@ export const Card = ({ size, number, color, type }: CardProps) => {
             src={block}
           />
           <img
-            className={`absolute self-end bottom-1 right-1 ${
-              getSize()?.icon_2
-            }`}
+            className={`absolute self-end bottom-1 right-1 ${getSize()?.icon_2
+              }`}
             src={block}
           />
           <div className="flex items-center w-full h-full justify-center">
@@ -108,23 +115,14 @@ export const Card = ({ size, number, color, type }: CardProps) => {
     case "plus2":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-skranji`}
+          className={`flex relative w-[${getSize()?.width}] h-[${getSize()?.heigth
+            }]  rounded font-skranji`}
           style={{ backgroundColor: getColor() }}
         >
-          <p
-            className={`absolute top-1 left-1 text-white ${
-              getSize()?.number_2
-            }`}
-          >
+          <p className={`absolute top-1 left-1 text-white ${getSize()?.number_2}`}>
             +2
           </p>
-          <p
-            className={`absolute self-end right-1 text-white  ${
-              getSize()?.number_2
-            }`}
-          >
+          <p className={`absolute self-end right-1 text-white  ${getSize()?.number_2}`}>
             +2
           </p>
           <div className="flex items-center w-full h-full justify-center">
@@ -136,9 +134,10 @@ export const Card = ({ size, number, color, type }: CardProps) => {
     case "back":
       return (
         <div
-          className={`flex relative w-[${getSize()?.width}] h-[${
-            getSize()?.heigth
-          }]  rounded font-skranji bg-black-800`}
+        className={clsx(`flex relative rounded font-skranji bg-black-800`,
+        { 'w-[6.25rem]': largeCard, 'h-[9.43rem]': largeCard },
+        { 'w-[5rem]': smallCard, 'h-[7.58rem]': smallCard }
+      )}
         >
           <div className="flex items-center w-full h-full justify-center">
             <img src={icon} className={`h-[${getSize()?.shape}]`} />

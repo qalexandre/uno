@@ -47,6 +47,10 @@ module.exports = {
       spacing: {
         'w-login': '22rem',
         'h-login': '35rem',
+        'h-largeCard': '9.43rem',
+        'h-smallCard': '7.58rem',
+        'w-largeCard': '6.25rem',
+        'w-smallCard': '5rem',
       }
     },
     backgroundImage: {
