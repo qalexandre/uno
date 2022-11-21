@@ -7,13 +7,15 @@ export type HomeProps = {
   joinGroup: (name: string, code: string) => void;
   room?: Group;
   isQueue: boolean;
+  socketId: string;
+  leftGroup: () => void;
 };
 
-export const Home = ({ createGroup, joinGroup, isQueue, room }: HomeProps) => {
+export const Home = ({ createGroup, joinGroup, isQueue, room, socketId, leftGroup }: HomeProps) => {
   return (
     <div className="bg-background-pattern w-screen h-screen bg-cover bg-opacity-25 flex items-center justify-center">
       {isQueue ? (
-        <Queue room={room!} />
+        <Queue leftGroup={leftGroup} socketId={socketId} room={room!} />
       ) : (
         <Join createGroup={createGroup} joinGroup={joinGroup} />
       )}

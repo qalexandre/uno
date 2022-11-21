@@ -24,11 +24,11 @@ const rooms: Group[] = [];
 
 app.post("/create", (req, res) => {
   console.log(req.body);
- 
+
   const code = makeid(6);
   const room: Group = {
     code,
-    players: []
+    players: [],
   };
   console.log(room);
   rooms.push(room);
@@ -36,24 +36,60 @@ app.post("/create", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  socket.emit('connected', socket.id)
-  socket.on('join', (name, code) => {
-    const room = rooms.findIndex(r => r.code == code)
-    const hasPlayer = rooms[room].players?.find(p => p.name == name)
-    if(hasPlayer) return socket.emit('error-name')
-    const player:Player = {
+  socket.emit("connected", socket.id);
+  socket.on("join", (name, code) => {
+    let isOwner = false;
+    const room = rooms.findIndex((r) => r.code == code);
+    if (room < 0) return socket.emit("error", "Grupo não existente");
+    const hasPlayer = rooms[room].players?.find((p) => p.name == name);
+    if (hasPlayer) return socket.emit("error", "Nome inválido");
+    if (rooms[room].players?.length! < 1) isOwner = true;
+    const player: Player = {
       id: socket.id,
-      name: name
-    }
-    rooms[room].players?.push(player)
+      name: name,
+      isOwner,
+    };
+    rooms[room].players?.push(player);
     socket.join(code);
-    socket.to(code).emit('update-queue', rooms[room])
-    socket.emit('joined', rooms[room])
-    console.log(player)
-    console.log(rooms[room])
-  })
+    socket.to(code).emit("update-queue", rooms[room]);
+    socket.emit("joined", rooms[room]);
+    console.log(player);
+    console.log(rooms[room]);
+  });
+
+  socket.on("left", (code) => {
+    socket.leave(code);
+    const index = rooms.findIndex((r) => r.code == code);
+    const player = rooms[index].players?.find((p) => p.id == socket.id);
+    rooms[index].players?.splice(
+      rooms[index].players?.findIndex((p) => p.id == socket.id)!,
+      1
+    );
+    if (rooms[index].players?.length == 0) rooms.splice(index, 1);
+    else {
+      if (player?.isOwner) rooms[index].players![0].isOwner = true;
+    }
+    socket.to(code).emit("update-queue", rooms[index]);
+  });
+
+  socket.on("disconnect", () => {
+    let roomLeft = {} as Group;
+    rooms.map((room, index) => {
+      const player = room.players?.findIndex((p) => p.id == socket.id)!;
+
+      if (player > -1) {
+        if (room.players?.length == 1) {
+          rooms.splice(index, 1);
+        } else {
+          rooms[index].players?.splice(player, 1);
+
+          roomLeft = room;
+        }
+      }
+    });
+    console.log(roomLeft);
+    socket.to(roomLeft.code).emit("update-queue", roomLeft);
+  });
 });
-
-
 
 server.listen(3333, () => console.log("Server running"));

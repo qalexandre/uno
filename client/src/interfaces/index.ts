@@ -6,5 +6,6 @@ export type Group = {
 export type Player = {
     name: string;
     id: string;
+    isOwner: boolean;
     cards?: string[]; 
 }

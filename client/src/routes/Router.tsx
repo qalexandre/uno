@@ -8,13 +8,15 @@ export type RouterProps = {
     createGroup: (name: string) => void;
     joinGroup: (name: string, code: string) => void;
     isQueue: boolean;
-    room?: Group
+    room?: Group;
+    socketId: string
+    leftGroup: () => void
 }
 
-export const Router = ({createGroup, joinGroup, isQueue, room} : RouterProps) => {
+export const Router = ({createGroup, joinGroup, isQueue, room, socketId, leftGroup} : RouterProps) => {
     return (
         <Routes>
-            <Route path='/' element={ <Home isQueue={isQueue} room={room} createGroup={createGroup} joinGroup={joinGroup} />} />
+            <Route path='/' element={ <Home leftGroup={leftGroup} socketId={socketId} isQueue={isQueue} room={room} createGroup={createGroup} joinGroup={joinGroup} />} />
             <Route path='/cardtable' element={<CardTable />} />
         </Routes>
     )

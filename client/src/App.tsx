@@ -21,8 +21,8 @@ function App() {
   }, [ENDPOINT]);
 
   useEffect(() => {
-    socket.on('error-name', () => {
-      alert('Nome já existe')
+    socket.on('error', (message) => {
+      alert(message)
     })
     socket.on('joined', (room: Group) => {
       enterRoom(room)
@@ -44,6 +44,12 @@ function App() {
     socket.emit('join', name, code);
   };
 
+  const leftGroup = () => {
+    socket.emit('left', room.code);
+    setRoom({} as Group)
+    setIsQueue(false);
+  }
+
   const enterRoom = (room: Group) => {
     setRoom(room);
     setIsQueue(true);
@@ -51,7 +57,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Router isQueue={isQueue} room={room}  createGroup={createGroup} joinGroup={joinGroup} />
+      <Router leftGroup={leftGroup} socketId={socketId} isQueue={isQueue} room={room}  createGroup={createGroup} joinGroup={joinGroup} />
     </BrowserRouter>
   )
 }

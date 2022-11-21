@@ -12,7 +12,7 @@ export const Join = ({createGroup, joinGroup}: JoinProps) => {
 
 
     return (
-        <div className='relative flex flex-col items-center bg-black-800 w-w-login h-h-login'>
+        <div className='relative flex flex-col items-center bg-black-900 w-w-login h-h-login'>
                 <img className='w-24 mt-4' src={icon} alt="" />
                 <input minLength={3} onChange={(e) => setName(e.target.value)} className='w-[18rem] h-[2.6rem] text-white bg-blue-800 placeholder:text-center text-center mb-[3rem] mt-8' type="text" placeholder='Nome'/>
                 <input onChange={(e) => setCode(e.target.value)} className='w-[18rem] h-[2.6rem] text-white bg-blue-800 text-center appearance-none' maxLength={6} type="text"  placeholder='Inserir o código da partida'/>
