@@ -5,9 +5,10 @@ type QueueProps = {
   room: Group;
   socketId: string;
   leftGroup: () => void;
+  startGame: () => void;
 };
 
-export const Queue = ({ room, socketId, leftGroup }: QueueProps) => {
+export const Queue = ({ room, socketId, leftGroup, startGame }: QueueProps) => {
   const owner = room.players?.find((p) => p.isOwner == true);
   return (
     <div className="relative flex flex-col items-center bg-black-900 w-w-login h-h-login">
@@ -21,7 +22,7 @@ export const Queue = ({ room, socketId, leftGroup }: QueueProps) => {
         ))}
       </div>
       {owner?.id == socketId ? (
-      <button disabled={room.players!.length < 2} className="disabled:grayscale bg-blue-700 w-40 h-16 rounded-xl text-xl text-white absolute bottom-20 font-inter font-bold">
+      <button onClick={startGame} disabled={room.players!.length < 2} className="disabled:grayscale bg-blue-700 w-40 h-16 rounded-xl text-xl text-white absolute bottom-20 font-inter font-bold">
         Iniciar
       </button>
       ) : null}

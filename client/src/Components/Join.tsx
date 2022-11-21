@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react'
 import icon from '../assets/icon.svg'
 
@@ -6,10 +7,9 @@ export type JoinProps = {
     joinGroup: (name: string, code: string) => void;
 }
 
-export const Join = ({createGroup, joinGroup}: JoinProps) => {
+export const Join = ({ joinGroup}: JoinProps) => {
     const [name, setName] = useState('')
     const [code, setCode] = useState('')
-
 
     return (
         <div className='relative flex flex-col items-center bg-black-900 w-w-login h-h-login'>

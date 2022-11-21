@@ -11,12 +11,13 @@ export type RouterProps = {
     room?: Group;
     socketId: string
     leftGroup: () => void
+    startGame: () => void
 }
 
-export const Router = ({createGroup, joinGroup, isQueue, room, socketId, leftGroup} : RouterProps) => {
+export const Router = ({createGroup, joinGroup, isQueue, room, socketId, leftGroup, startGame} : RouterProps) => {
     return (
         <Routes>
-            <Route path='/' element={ <Home leftGroup={leftGroup} socketId={socketId} isQueue={isQueue} room={room} createGroup={createGroup} joinGroup={joinGroup} />} />
+            <Route path='/' element={ <Home startGame={startGame} leftGroup={leftGroup} socketId={socketId} isQueue={isQueue} room={room} createGroup={createGroup} joinGroup={joinGroup} />} />
             <Route path='/cardtable' element={<CardTable />} />
         </Routes>
     )

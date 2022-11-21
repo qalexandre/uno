@@ -3,7 +3,7 @@ import cors from "cors";
 import socket from "socket.io";
 import http from "http";
 import bp from "body-parser";
-import { makeid } from "./functions";
+import { generateCards, makeid } from "./functions";
 import { Group, Player } from "./interfaces";
 
 const app = express();
@@ -57,6 +57,12 @@ io.on("connection", (socket) => {
     console.log(rooms[room]);
   });
 
+  socket.on('startGame', (room: Group) => {
+    const game = generateCards(room)
+    socket.to(room.code).emit('startedGame', game);
+    socket.emit('startedGame', game);
+  })
+
   socket.on("left", (code) => {
     socket.leave(code);
     const index = rooms.findIndex((r) => r.code == code);
@@ -87,7 +93,6 @@ io.on("connection", (socket) => {
         }
       }
     });
-    console.log(roomLeft);
     socket.to(roomLeft.code).emit("update-queue", roomLeft);
   });
 });

@@ -9,13 +9,14 @@ export type HomeProps = {
   isQueue: boolean;
   socketId: string;
   leftGroup: () => void;
+  startGame: () => void;
 };
 
-export const Home = ({ createGroup, joinGroup, isQueue, room, socketId, leftGroup }: HomeProps) => {
+export const Home = ({ createGroup, joinGroup, isQueue, room, socketId, leftGroup, startGame }: HomeProps) => {
   return (
     <div className="bg-background-pattern w-screen h-screen bg-cover bg-opacity-25 flex items-center justify-center">
       {isQueue ? (
-        <Queue leftGroup={leftGroup} socketId={socketId} room={room!} />
+        <Queue startGame={startGame} leftGroup={leftGroup} socketId={socketId} room={room!} />
       ) : (
         <Join createGroup={createGroup} joinGroup={joinGroup} />
       )}

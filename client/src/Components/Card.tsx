@@ -1,6 +1,8 @@
 import shape from "../assets/shape_card.svg";
 import block from "../assets/block.png";
 import blockBlack from "../assets/block_black.png";
+import reverse from "../assets/reverse.png";
+import reverseBlack from "../assets/reverse_black.png";
 import icon from "../assets/icon.svg";
 import changeColor from "../assets/changeColor.svg";
 import plus4 from "../assets/plus4.svg";
@@ -9,28 +11,29 @@ import clsx from "clsx";
 
 type CardProps = {
   size: number;
-  number?: number;
-  color: Color;
-  type: CardType;
+  code?: string;
+  isBack?: boolean;
 };
 
 type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back" | "changeColor";
 
 type Color = "red" | "green" | "orange" | "gray";
 
-export const Card = ({ size, number, color, type }: CardProps) => {
+export const Card = ({ size, code, isBack }: CardProps) => {
+
 
   const largeCard = size === 1
   const smallCard = size === 2
+  const opponentCard = size === 3
   const getColor = () => {
-    switch (color) {
-      case "gray":
+    switch (code![1]) {
+      case "B":
         return "#515151";
-      case "green":
+      case "G":
         return "#21B9B9";
-      case "orange":
+      case "O":
         return "#EA6C25";
-      case "red":
+      case "R":
         return "#F13556";
     }
   };
@@ -59,42 +62,28 @@ export const Card = ({ size, number, color, type }: CardProps) => {
         };
     }
   };
-  switch (type) {
-    case "normal":
+  if(opponentCard || isBack){
+    return (
+      <div
+      className={clsx(`flex relative rounded font-skranji bg-black-900`,
+        { 'w-w-largeCard h-h-largeCard': largeCard },
+        { 'w-w-smallCard h-h-smallCard': smallCard },
+        { 'w-w-opponentCard h-h-opponentCard': opponentCard },
+      )}
+    >
+      <div className="flex items-center w-full h-full justify-center">
+        <img src={icon} className={`h-[${getSize()?.shape}]`} />
+      </div>
+    </div>
+    )
+  }
+  switch (code![0]) {
+    case "B":
       return (
         <div
           className={clsx(`flex relative rounded font-card`,
             { 'w-w-largeCard h-h-largeCard': largeCard },
-            { 'w-w-smallCard h-h-smallCard': smallCard }
-          )}
-          style={{ backgroundColor: getColor() }}
-        >
-          <p
-            className={`absolute top-1 left-1 text-white ${getSize()?.number_2
-              }`}>
-            {number}
-          </p>
-          <p
-            className={`absolute self-end right-1 text-white  ${getSize()?.number_2
-              }`}
-          >
-            {number}
-          </p>
-          <div className="flex items-center w-full h-full justify-center">
-            <img src={shape} className={clsx(
-              { 'h-[6.87rem]': largeCard },
-              { 'h-[5.6rem]': smallCard }
-            )} />
-            <p className={`absolute text-black-800 ${getSize()?.number_1}`}>{number}</p>
-          </div>
-        </div>
-      );
-    case "block":
-      return (
-        <div
-          className={clsx(`flex relative rounded font-card`,
-            { 'w-w-largeCard h-h-largeCard': largeCard },
-            { 'w-w-smallCard h-h-smallCard': smallCard }
+            { 'w-w-smallCard h-h-smallCard': smallCard },
           )}
           style={{ backgroundColor: getColor() }}
         >
@@ -113,12 +102,12 @@ export const Card = ({ size, number, color, type }: CardProps) => {
           </div>
         </div>
       );
-    case "plus2":
+    case "D":
       return (
         <div
           className={clsx(`flex relative rounded font-skranji`,
             { 'w-w-largeCard h-h-largeCard': largeCard },
-            { 'w-w-smallCard h-h-smallCard': smallCard }
+            { 'w-w-smallCard h-h-smallCard': smallCard },
           )}
           style={{ backgroundColor: getColor() }}
         >
@@ -134,24 +123,35 @@ export const Card = ({ size, number, color, type }: CardProps) => {
           </div>
         </div>
       );
-    case "back":
+    case "R":
       return (
         <div
-          className={clsx(`flex relative rounded font-skranji bg-black-900`,
-            { 'w-w-largeCard h-h-largeCard': largeCard },
-            { 'w-w-smallCard h-h-smallCard': smallCard }
-          )}
-        >
-          <div className="flex items-center w-full h-full justify-center">
-            <img src={icon} className={`h-[${getSize()?.shape}]`} />
-          </div>
-        </div>
-      );
-    case "changeColor":
-      return (
-        <div className={clsx(`flex flex-col items-center justify-between relative z-10 rounded font-skranji bg-gray-900`,
+        className={clsx(`flex relative rounded font-card`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
-          { 'w-w-smallCard h-h-smallCard': smallCard }
+          { 'w-w-smallCard h-h-smallCard': smallCard },
+        )}
+        style={{ backgroundColor: getColor() }}
+      >
+        <img
+          className={`absolute top-1 left-1 ${getSize()?.icon_2}`}
+          src={reverse}
+        />
+        <img
+          className={`absolute self-end bottom-1 right-1 ${getSize()?.icon_2
+            }`}
+          src={reverse}
+        />
+        <div className="flex items-center w-full h-full justify-center">
+          <img src={shape} className={`h-[${getSize()?.shape}]`} />
+          <img className={`absolute ${getSize()?.icon_1}`} src={reverseBlack} />
+        </div>
+      </div>
+      );
+    case "C":
+      return (
+        <div className={clsx(`flex flex-col items-center justify-between relative  rounded font-skranji bg-gray-900`,
+          { 'w-w-largeCard h-h-largeCard': largeCard },
+          { 'w-w-smallCard h-h-smallCard': smallCard },
         )}
         >
           <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard }, { 'px-[0.46rem] pt-[0.46rem]': smallCard })}>
@@ -169,17 +169,44 @@ export const Card = ({ size, number, color, type }: CardProps) => {
           </div>
         </div>
       );
-    case "plus4":
+    case "F":
       return (
-        <div className={clsx(`flex relative z-10 rounded font-skranji bg-black-900`,
+        <div className={clsx(`flex relative  rounded font-skranji bg-black-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
-          { 'w-w-smallCard h-h-smallCard': smallCard }
+          { 'w-w-smallCard h-h-smallCard': smallCard },
         )}
         >
             <img src={plus4} className="w-full h-full" />
         </div>
       );
     default:
-      return <></>;
+      return (
+        <div
+          className={clsx(`flex relative rounded font-card`,
+            { 'w-w-largeCard h-h-largeCard': largeCard },
+            { 'w-w-smallCard h-h-smallCard': smallCard },
+          )}
+          style={{ backgroundColor: getColor() }}
+        >
+          <p
+            className={`absolute top-1 left-1 text-white ${getSize()?.number_2
+              }`}>
+            {code![0]}
+          </p>
+          <p
+            className={`absolute self-end right-1 text-white  ${getSize()?.number_2
+              }`}
+          >
+            {code![0]}
+          </p>
+          <div className="flex items-center w-full h-full justify-center">
+            <img src={shape} className={clsx(
+              { 'h-[6.87rem]': largeCard },
+              { 'h-[5.6rem]': smallCard }
+            )} />
+            <p className={`absolute text-black-800 ${getSize()?.number_1}`}>{code![0]}</p>
+          </div>
+        </div>
+      );
   }
 };

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 import { Group } from "./interfaces";
 const ENDPOINT = "http://localhost:3333";
-let socket: Socket;
+export let socket: Socket;
 import { BrowserRouter } from "react-router-dom"
 import { Router } from "./routes/Router"
 
@@ -31,6 +31,10 @@ function App() {
     socket.on('update-queue', (room) => {
       setRoom(room)
     })
+
+    socket.on('startedGame', (room) => {
+      console.log(room)
+    })
   }, [])
 
   const createGroup = async (name: string) => {
@@ -55,9 +59,13 @@ function App() {
     setIsQueue(true);
   }
 
+  const startGame = () => {
+    socket.emit('startGame', room);
+  }
+
   return (
     <BrowserRouter>
-      <Router leftGroup={leftGroup} socketId={socketId} isQueue={isQueue} room={room}  createGroup={createGroup} joinGroup={joinGroup} />
+      <Router startGame={startGame} leftGroup={leftGroup} socketId={socketId} isQueue={isQueue} room={room}  createGroup={createGroup} joinGroup={joinGroup} />
     </BrowserRouter>
   )
 }
