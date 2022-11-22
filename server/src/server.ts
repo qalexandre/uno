@@ -1,9 +1,9 @@
 import express, { json } from "express";
 import cors from "cors";
-import socket from "socket.io";
+import socket, { Socket } from "socket.io";
 import http from "http";
 import bp from "body-parser";
-import { generateCards, makeid } from "./functions";
+import { generateCards, makeid, nextTurn, verifyPower } from "./functions";
 import { Group, Player } from "./interfaces";
 
 const app = express();
@@ -29,6 +29,8 @@ app.post("/create", (req, res) => {
   const room: Group = {
     code,
     players: [],
+    directionGame: 'right',
+    playersList: []
   };
   console.log(room);
   rooms.push(room);
@@ -52,6 +54,8 @@ io.on("connection", (socket) => {
       isOwner,
     };
     rooms[room].players?.push(player);
+    rooms[room].playersList?.push(player.name);
+    rooms[room].playerTurn = name;
     socket.join(code);
     socket.to(code).emit("updateQueue", rooms[room]);
     socket.emit("joined", rooms[room]);
@@ -103,10 +107,16 @@ io.on("connection", (socket) => {
     const player = room.players?.findIndex(p => p.id == socket.id)
     const cardIndex =  room.players![player!].cards?.findIndex(c => c == card)
     room.players![player!].cards?.splice(cardIndex!, 1)
-
-    console.log(card)
+ 
+    room = verifyPower(card, room)
     socket.to(room.code).emit("updateCards", room)
     socket.emit("updateCards", room)
+  })
+
+  socket.on('skipTurn', (room) => {
+    room = nextTurn(room);
+    socket.to(room.code).emit("skipedTurn", room)
+    socket.emit("skipedTurn", room)
   })
 
 });

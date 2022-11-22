@@ -3,6 +3,9 @@ export type Group = {
     players?: Player[];
     cards?: string[];
     lastCard?: string;
+    playersList?: string[],
+    directionGame?: 'left' | "right",
+    playerTurn?: string, 
 }
 
 export type Player = {
@@ -18,6 +21,7 @@ export interface ServerToClientEvents {
     error: (message: string) => void;
     startedGame: (room: Group) => void;
     updateCards: (room: Group) => void
+    skipedTurn: (room: Group) => void
   }
   
   export interface ClientToServerEvents {
@@ -25,4 +29,5 @@ export interface ServerToClientEvents {
     left: (code: string) => void;
     startGame: (room: Group) => void;
     playCard: (card: string, room: Group) => void;
+    skipTurn: (room: Group) => void;
   }

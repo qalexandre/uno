@@ -3,6 +3,9 @@ export type Group = {
     players?: Player[];
     cards?: string[];
     lastCard?: string;
+    playersList?: string[];
+    playerTurn?: string;
+    directionGame?: 'left' | 'right';
 }
 
 export type Player = {

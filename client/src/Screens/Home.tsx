@@ -19,11 +19,13 @@ export const Home = () => {
 
   useEffect(() => {
     socket.on('joined', (room: Group) => {
+      console.log(room)
       enterRoom(room)
     })
     
 
     socket.on('updateQueue', (room) => {
+      console.log(room)
       setRoom(room)
     })
 

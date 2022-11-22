@@ -45,3 +45,40 @@ export function generateCards(room: Group){
          return room;
     
 }
+
+export function nextTurn(room: Group){
+    const index = room.playersList?.findIndex(p => p == room.playerTurn)!;
+    console.log('Pulando', index, room.playerTurn, room.directionGame)
+    if(room.directionGame == 'right'){
+        if((index + 1) == room.playersList?.length){
+            room.playerTurn = room.playersList[0]
+        }else {
+            room.playerTurn = room.playersList![index + 1]
+        }
+    } else {
+        if(index == 0){
+            room.playerTurn = room.playersList![room.playersList!.length - 1]
+        }else {
+            room.playerTurn = room.playersList![index - 1]
+        }
+    }
+    return room
+}
+
+export function verifyPower(card: string, room: Group){
+    console.log('CARD',card)
+    switch(card[0]){
+        case 'B': 
+        console.log('AQUI')
+            room = nextTurn(room);
+        break;
+        case 'R':
+            console.log('AQUI1 RETURN')
+            room.directionGame = room.directionGame == 'right' ? 'left' : 'right';
+        break;
+        default: 
+            null
+    }
+
+    return nextTurn(room)
+}

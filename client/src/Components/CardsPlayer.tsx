@@ -23,18 +23,24 @@ export const CardsPlayer = ({
   lastCard,
   player
 }: CardProps) => {
-  const [change, setChange] = useState(false);
-  const [margin, setMargin] = useState("");
   const { room, setRoom } = useRoom()
   const {socket, connected} = useSocket<ServerToClientEvents, ClientToServerEvents>(ENDPOINT)
 
+  const [isYourTurn, setIsYourTurn] = useState(false);
+
   useEffect(() => {
-    socket.on("updateCards", (roomUpdated) => {
-      console.log(roomUpdated)
-      setRoom(roomUpdated)
-      })
-    // setMargin(getMargin())
-  }, [socket]);
+    console.log(isMy, player)
+    if(isMy){
+      console.log(player, room.playerTurn)
+      if(player?.name == room.playerTurn){
+        setIsYourTurn(true)
+        console.log('aq')
+      } else {
+        setIsYourTurn(false)
+        console.log('aq2')
+      }
+    }
+  }, [player]);
 
   const getMargin = (quant: number) => {
     if (opponent) {
@@ -51,21 +57,9 @@ export const CardsPlayer = ({
   };
 
   function playCard(card: string) {
-    // room.players?.map(player => {
-    //   const cs = player.cards?.find(c => c == card)
-    //   if(cs) { 
-    //     player.cards?.splice(player.cards.findIndex(c => c == cs), 1)
-    //   }
-    // })
-
+    console.log(room)
     socket.emit("playCard", card, room)
 
-    // room.players?.map(player => {
-    //   player.cards.
-    //   player.cards?.splice(player.cards.findIndex(c => c == card), 1)
-    // })
-    // room.lastCard = card;
-    // setRoom(room)
   }
 
   if (isBuy) {
@@ -112,13 +106,9 @@ export const CardsPlayer = ({
                 )}
               >
                 {isMy ? (
-                  <div onClick={() =>{ 
-                    lastCard![0] != card[0] && lastCard![1] != card[1] == false &&
-                    playCard(card)
-                  }}
-                  >
-                    <Card
-                      isBlock={lastCard![0] != card[0] && lastCard![1] != card[1]}
+                  <div>
+                    <Card playCard={playCard}
+                      isBlock={lastCard![1] != 'E' && lastCard![0] != card[0] && lastCard![1] != card[1] || !isYourTurn}
                       code={card}
                       size={isMy ? 1 : opponent ? 3 : 2}
                       />

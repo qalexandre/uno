@@ -14,13 +14,14 @@ type CardProps = {
   code?: string;
   isBack?: boolean;
   isBlock?: boolean;
+  playCard?: (card: string) => void;
 };
 
 type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back" | "changeColor";
 
 type Color = "red" | "green" | "orange" | "gray";
 
-export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
+export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
 
 
   const largeCard = size === 1
@@ -81,7 +82,8 @@ export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
   switch (code![0]) {
     case "B":
       return (
-        <div
+        <div 
+        onClick={() => !isBlock && playCard ? playCard(code!) : null}
           className={clsx(`flex relative rounded font-card`,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
@@ -107,6 +109,7 @@ export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
     case "D":
       return (
         <div
+        onClick={() => !isBlock && playCard ? playCard(code!) : null}
           className={clsx(`flex relative rounded font-skranji`,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
@@ -129,6 +132,7 @@ export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
     case "R":
       return (
         <div
+        onClick={() => !isBlock && playCard ? playCard(code!) : null}
         className={clsx(`flex relative rounded font-card `,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
@@ -153,7 +157,9 @@ export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
       );
     case "C":
       return (
-        <div className={clsx(`flex flex-col items-center justify-between relative  rounded font-skranji bg-gray-900`,
+        <div 
+        onClick={() => !isBlock && playCard ? playCard(code!) : null}
+        className={clsx(`flex flex-col items-center justify-between relative  rounded font-skranji bg-gray-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
           { 'brightness-50' : isBlock}
@@ -176,7 +182,9 @@ export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
       );
     case "F":
       return (
-        <div className={clsx(`flex relative  rounded font-skranji bg-black-900`,
+        <div
+        onClick={() => !isBlock && playCard ? playCard(code!) : null}
+        className={clsx(`flex relative  rounded font-skranji bg-black-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
           { 'brightness-50' : isBlock}
@@ -188,6 +196,7 @@ export const Card = ({ size, code, isBack, isBlock }: CardProps) => {
     default:
       return (
         <div
+        onClick={() => !isBlock && playCard ? playCard(code!) : null}
           className={clsx(`flex relative rounded font-card `,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
