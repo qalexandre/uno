@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Card } from "../Components/Card";
+import { Player } from "../interfaces";
 
 type CardProps = {
   isMy?: boolean;
   opponent?: boolean;
   isBuy?: boolean;
   cards?: string[];
+  player?: Player;
   lastCard?: string;
 };
 
@@ -16,6 +18,7 @@ export const CardsPlayer = ({
   isBuy,
   cards,
   lastCard,
+  player
 }: CardProps) => {
   const [change, setChange] = useState(false);
   const [margin, setMargin] = useState("");
@@ -44,7 +47,7 @@ export const CardsPlayer = ({
     return (
       <div className="flex items-center justify-start">
         {cardsBuy.map((card, index) => (
-          <div className={`mr-[-4rem]`}>
+          <div key={index} className={`mr-[-4rem]`}>
             {index == 5 ? (
               <div
                 className={`cursor-pointer  hover:scale-110 hover:z-[3000] transition-all ease-in hover:ml-4 hover:mr-[0.1rem]`}
@@ -66,28 +69,34 @@ export const CardsPlayer = ({
         "justify-start": opponent,
       })}
     >
-      {cards?.map((card, index) => (
-        <div
-          key={index}
-          className={clsx(
-            `z-[${index + 1000}] relative ${getMargin(cards?.length)}  ${
-              isMy
-                ? "cursor-pointer hover:scale-110 hover:z-[3000] transition-all ease-in hover:ml-4 hover:mr-[0.1rem]"
-                : null
-            } `
-          )}
-        >
-          {isMy ? (
-            <Card
-              isBlock={lastCard![0] != card[0] && lastCard![1] != card[1]}
-              code={card}
-              size={isMy ? 1 : opponent ? 3 : 2}
-            />
-          ) : (
-            <Card code={card} size={isMy ? 1 : opponent ? 3 : 2} />
-          )}
+
+      <div className="flex flex-col items-start">
+
+        { opponent && 
+          <div className="flex items-center justify-center bg-purple-400 rounded w-[11rem] px-2 py-[0.25rem]"> 
+            <p className="text-black-900" > {player?.name} - {player?.cards?.length} </p>
+          </div>
+          }
+        <div className="flex items-">
+          {player?.cards?.map((card, index) => (
+              <div key={index + card} className={clsx( `z-[${index + 1000}] relative ${getMargin(player?.cards?.length!)}`,
+                  { "cursor-pointer hover:scale-110 hover:z-[3000] transition-all ease-in hover:ml-4 hover:mr-[0.1rem]": isMy} 
+                )}
+              >
+                {isMy ? (
+                  <Card
+                    isBlock={lastCard![0] != card[0] && lastCard![1] != card[1]}
+                    code={card}
+                    size={isMy ? 1 : opponent ? 3 : 2}
+                  />
+                ) : (
+                  <Card code={card} size={isMy ? 1 : opponent ? 3 : 2} />
+                )}
+              </div>
+            ))}
         </div>
-      ))}
+
+      </div>
     </div>
   );
 };

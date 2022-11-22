@@ -38,21 +38,20 @@ export const CardTable = () => {
       </div>
       {room.players?.length == 2 && (
         <div className="h-full flex flex-col items-center justify-between ">
-          <CardsPlayer cards={room.players[1]?.cards} />
+          <CardsPlayer  player={room.players[1]} opponent={true} />
             <Card code={room.lastCard} size={1} />
-          <CardsPlayer lastCard={room.lastCard} cards={me?.cards} isMy={true} />
-
+          <CardsPlayer lastCard={room.lastCard}  player={me} isMy={true} />
         </div>
       )}
 
       {room.players?.length == 3 && (
         <div className="h-full flex flex-col items-center justify-between ">
           <div className="w-full flex items-center justify-between">
-            <CardsPlayer cards={room.players[1]?.cards} opponent={true} />
-            <CardsPlayer cards={room.players[2]?.cards} opponent={true} />
+            <CardsPlayer player={room.players[1]} opponent={true} />
+            <CardsPlayer player={room.players[2]} opponent={true} />
           </div>
           <Card code={room.lastCard} size={1} />
-          <CardsPlayer  cards={me?.cards} isMy={true} />
+          <CardsPlayer lastCard={room.lastCard} player={me} isMy={true} />
         </div>
       )}
 
@@ -62,15 +61,15 @@ export const CardTable = () => {
             {/* <div className="flex items-center justify-center bg-purple-400 rounded w-[11rem] px-2 py-[0.25rem]"> 
                     <p className="text-black-900" > Jogador - 48 </p>
                 </div> */}
-            <CardsPlayer opponent={true} />
+            <CardsPlayer player={room.players[2]} opponent={true} />
           </div>
           <div className="h-full flex flex-col items-center justify-between">
-            <CardsPlayer opponent={true} />
+            <CardsPlayer player={room.players[1]} opponent={true} />
             <Card code="RG" size={1} />
-            <CardsPlayer isMy={true} />
+            <CardsPlayer  lastCard={room.lastCard} player={me} isMy={true} />
           </div>
           <div className="flex-1 mt-[-12rem]">
-            <CardsPlayer opponent={true} />
+            <CardsPlayer player={room.players[3]} opponent={true} />
           </div>
         </div>
       )}
@@ -78,16 +77,16 @@ export const CardTable = () => {
       {room.players?.length == 5 && (
         <div className="h-full flex items-center justify-between ">
           <div className="flex flex-col items-center justify-between gap-[9rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[1]} opponent={true} />
+          <CardsPlayer player={room.players[3]} opponent={true} />
           </div>
           <div className="h-full flex flex-col items-center justify-between  pt-[7rem]">
             <Card code="RG" size={1} />
-            <CardsPlayer isMy={true} />
+            <CardsPlayer lastCard={room.lastCard} player={me} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[9rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[2]} opponent={true} />  
+          <CardsPlayer player={room.players[4]} opponent={true} />  
           </div>
         </div>
       )}
@@ -95,17 +94,17 @@ export const CardTable = () => {
       {room.players?.length == 6 && (
         <div className="h-full flex items-center justify-between ">
           <div className="flex flex-col items-center justify-between gap-[6rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[2]} opponent={true} />
+          <CardsPlayer player={room.players[4]} opponent={true} />
           </div>
           <div className="h-full flex flex-col items-center justify-between  ">
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[1]} opponent={true} />
             <Card code="RG" size={1} />
-            <CardsPlayer isMy={true} />
+            <CardsPlayer  lastCard={room.lastCard} player={me} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[6rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[4]} opponent={true} />
+          <CardsPlayer player={room.players[5]} opponent={true} />
           </div>
         </div>
       )}
@@ -113,18 +112,18 @@ export const CardTable = () => {
       {room.players?.length == 7 && (
         <div className="h-full flex items-center justify-between ">
           <div className="flex flex-col items-center justify-between gap-[3rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[1]} opponent={true} />
+          <CardsPlayer player={room.players[3]} opponent={true} />
+          <CardsPlayer player={room.players[5]} opponent={true} />
           </div>
           <div className="h-full flex flex-col items-center justify-between  pt-[7rem]">
             <Card code="RG" size={1} />
-            <CardsPlayer isMy={true} />
+            <CardsPlayer lastCard={room.lastCard} player={me} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[3rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[2]} opponent={true} />
+          <CardsPlayer player={room.players[4]} opponent={true} />
+          <CardsPlayer player={room.players[6]} opponent={true} />
           </div>
         </div>
       )}
@@ -132,19 +131,19 @@ export const CardTable = () => {
       {room.players?.length == 8 && (
         <div className="h-full flex items-center justify-between ">
           <div className="flex flex-col items-center justify-between gap-[2.7rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[2]} opponent={true} />
+          <CardsPlayer player={room.players[4]} opponent={true} />
+          <CardsPlayer player={room.players[6]} opponent={true} />
           </div>
           <div className="h-full flex flex-col items-center justify-between ">
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[1]} opponent={true} />
             <Card code="RG" size={1} />
-            <CardsPlayer isMy={true} />
+            <CardsPlayer lastCard={room.lastCard} player={me} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[2.7rem] mt-[-12rem]">
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
-            <CardsPlayer opponent={true} />
+          <CardsPlayer player={room.players[3]} opponent={true} />
+          <CardsPlayer player={room.players[5]} opponent={true} />
+          <CardsPlayer player={room.players[7]} opponent={true} />
           </div>
         </div>
       )}
