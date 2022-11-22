@@ -1,7 +1,10 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { useSocket } from "socket.io-react-hook";
+import { ENDPOINT } from "../App";
 import { Card } from "../Components/Card";
-import { Player } from "../interfaces";
+import { useRoom } from "../hooks/room";
+import { ClientToServerEvents, Player, ServerToClientEvents } from "../interfaces";
 
 type CardProps = {
   isMy?: boolean;
@@ -22,10 +25,16 @@ export const CardsPlayer = ({
 }: CardProps) => {
   const [change, setChange] = useState(false);
   const [margin, setMargin] = useState("");
+  const { room, setRoom } = useRoom()
+  const {socket, connected} = useSocket<ServerToClientEvents, ClientToServerEvents>(ENDPOINT)
 
   useEffect(() => {
+    socket.on("updateCards", (roomUpdated) => {
+      console.log(roomUpdated)
+      setRoom(roomUpdated)
+      })
     // setMargin(getMargin())
-  }, []);
+  }, [socket]);
 
   const getMargin = (quant: number) => {
     if (opponent) {
@@ -40,6 +49,24 @@ export const CardsPlayer = ({
       else return "mr-[-3.5rem]";
     }
   };
+
+  function playCard(card: string) {
+    // room.players?.map(player => {
+    //   const cs = player.cards?.find(c => c == card)
+    //   if(cs) { 
+    //     player.cards?.splice(player.cards.findIndex(c => c == cs), 1)
+    //   }
+    // })
+
+    socket.emit("playCard", card, room)
+
+    // room.players?.map(player => {
+    //   player.cards.
+    //   player.cards?.splice(player.cards.findIndex(c => c == card), 1)
+    // })
+    // room.lastCard = card;
+    // setRoom(room)
+  }
 
   if (isBuy) {
     const cardsBuy = [1, 2, 3, 4, 5, 6];
@@ -79,18 +106,25 @@ export const CardsPlayer = ({
           }
         <div className="flex items-">
           {player?.cards?.map((card, index) => (
-              <div key={index + card} className={clsx( `z-[${index + 1000}] relative ${getMargin(player?.cards?.length!)}`,
+
+              <div key={index} className={clsx( `z-[${index + 1000}] relative ${getMargin(player?.cards?.length!)}`,
                   { "cursor-pointer hover:scale-110 hover:z-[3000] transition-all ease-in hover:ml-4 hover:mr-[0.1rem]": isMy} 
                 )}
               >
                 {isMy ? (
-                  <Card
-                    isBlock={lastCard![0] != card[0] && lastCard![1] != card[1]}
-                    code={card}
-                    size={isMy ? 1 : opponent ? 3 : 2}
-                  />
+                  <div onClick={() =>{ 
+                    lastCard![0] != card[0] && lastCard![1] != card[1] == false &&
+                    playCard(card)
+                  }}
+                  >
+                    <Card
+                      isBlock={lastCard![0] != card[0] && lastCard![1] != card[1]}
+                      code={card}
+                      size={isMy ? 1 : opponent ? 3 : 2}
+                      />
+                  </div>
                 ) : (
-                  <Card code={card} size={isMy ? 1 : opponent ? 3 : 2} />
+                    <Card code={card} size={isMy ? 1 : opponent ? 3 : 2} />
                 )}
               </div>
             ))}

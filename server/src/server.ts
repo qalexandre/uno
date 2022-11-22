@@ -97,6 +97,18 @@ io.on("connection", (socket) => {
     });
     socket.to(roomLeft.code).emit("update-queue", roomLeft);
   });
+
+  socket.on("playCard", (card: string, room: Group) => {
+    room.lastCard = card
+    const player = room.players?.findIndex(p => p.id == socket.id)
+    const cardIndex =  room.players![player!].cards?.findIndex(c => c == card)
+    room.players![player!].cards?.splice(cardIndex!, 1)
+
+    console.log(card)
+    socket.to(room.code).emit("updateCards", room)
+    socket.emit("updateCards", room)
+  })
+
 });
 
 server.listen(3333, () => console.log("Server running"));

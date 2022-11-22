@@ -17,10 +17,12 @@ export interface ServerToClientEvents {
     updateQueue: (room: Group) => void;
     error: (message: string) => void;
     startedGame: (room: Group) => void;
+    updateCards: (room: Group) => void
   }
   
   export interface ClientToServerEvents {
     join: (name: string, code: string) => void;
     left: (code: string) => void;
     startGame: (room: Group) => void;
+    playCard: (card: string, room: Group) => void;
   }
