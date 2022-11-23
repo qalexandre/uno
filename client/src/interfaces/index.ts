@@ -28,6 +28,6 @@ export interface ServerToClientEvents {
     join: (name: string, code: string) => void;
     left: (code: string) => void;
     startGame: (room: Group) => void;
-    playCard: (card: string, room: Group) => void;
+    playCard: (card: string, room: Group, color: string) => void;
     skipTurn: (room: Group) => void;
   }

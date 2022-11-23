@@ -102,13 +102,13 @@ io.on("connection", (socket) => {
     socket.to(roomLeft.code).emit("update-queue", roomLeft);
   });
 
-  socket.on("playCard", (card: string, room: Group) => {
+  socket.on("playCard", (card: string, room: Group, color?: string) => {
     room.lastCard = card
     const player = room.players?.findIndex(p => p.id == socket.id)
     const cardIndex =  room.players![player!].cards?.findIndex(c => c == card)
     room.players![player!].cards?.splice(cardIndex!, 1)
  
-    room = verifyPower(card, room)
+    room = verifyPower(card, room, color)
     socket.to(room.code).emit("updateCards", room)
     socket.emit("updateCards", room)
   })

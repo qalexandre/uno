@@ -13,6 +13,7 @@ type CardProps = {
   cards?: string[];
   player?: Player;
   lastCard?: string;
+  showModalColor?: (card: string) => void;
 };
 
 export const CardsPlayer = ({
@@ -21,7 +22,8 @@ export const CardsPlayer = ({
   isBuy,
   cards,
   lastCard,
-  player
+  player,
+  showModalColor
 }: CardProps) => {
   const { room, setRoom } = useRoom()
   const {socket, connected} = useSocket<ServerToClientEvents, ClientToServerEvents>(ENDPOINT)
@@ -57,10 +59,20 @@ export const CardsPlayer = ({
   };
 
   function playCard(card: string) {
-    console.log(room)
-    socket.emit("playCard", card, room)
+    if(card == 'FE' || card == 'CE') return showModalColor && showModalColor(card);
+    socket.emit("playCard", card, room, card[1])
 
   }
+
+  function verifyBlock(card: string){
+    if(!isYourTurn) return true;
+    if(card == 'FE' || card == 'CE') return false
+    // if(lastCard![0] == 'F' || lastCard![0] == 'C'){
+    //   if(card[1] == lastCard![1]) return false
+    // } 
+    if(lastCard![0] != card[0] && lastCard![1] != card[1]) return true
+    return false
+  } 
 
   if (isBuy) {
     const cardsBuy = [1, 2, 3, 4, 5, 6];
@@ -108,7 +120,7 @@ export const CardsPlayer = ({
                 {isMy ? (
                   <div>
                     <Card playCard={playCard}
-                      isBlock={lastCard![1] != 'E' && lastCard![0] != card[0] && lastCard![1] != card[1] || !isYourTurn}
+                      isBlock={verifyBlock(card)}
                       code={card}
                       size={isMy ? 1 : opponent ? 3 : 2}
                       />
