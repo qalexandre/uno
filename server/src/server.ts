@@ -3,7 +3,7 @@ import cors from "cors";
 import socket, { Socket } from "socket.io";
 import http from "http";
 import bp from "body-parser";
-import { generateCards, makeid, nextTurn, verifyPower } from "./functions";
+import { buyCard, generateCards, makeid, nextTurn, verifyPower } from "./functions";
 import { Group, Player } from "./interfaces";
 
 const app = express();
@@ -117,6 +117,13 @@ io.on("connection", (socket) => {
     room = nextTurn(room);
     socket.to(room.code).emit("skipedTurn", room)
     socket.emit("skipedTurn", room)
+  })
+
+  socket.on('buyCard', (room: Group) => {
+    const player = room.players?.findIndex(p => p.id == socket.id)
+    room = buyCard(player!, room)
+    socket.to(room.code).emit("boughtCard", room)
+    socket.emit("boughtCard", room)
   })
 
 });

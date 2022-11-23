@@ -201,6 +201,16 @@ export function verifyPower(card: string, room: Group, color?: string) {
     }
     return room;
   }
+  
 
   return nextTurn(room);
+}
+export function buyCard(playerIndex: number, room: Group){
+    
+  const index = Math.floor(Math.random() * room.cards!.length);
+  const card = room.cards![index];
+  room.cards!.splice(index, 1);
+  room.players![playerIndex].cards?.push(card);
+
+  return room;
 }

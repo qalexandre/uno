@@ -18,6 +18,7 @@ export const CardTable = () => {
   const [roomSelected, setRoomSelected] = useState({} as Group);
 
   const [showModalColor, setShowModalColor] = useState(false);
+  const [canSkip, setCanSkip] = useState(false);
 
   const [cardColor, setCardColor] = useState('');
 
@@ -36,16 +37,24 @@ export const CardTable = () => {
       console.log(roomUpdated);
       setRoom(roomUpdated);
     });
+    socket.on('boughtCard', (roomUpdated) => {
+      setRoom(roomUpdated);
+    })
   }, [socket]);
 
   useEffect(() => {
     const me = room.players?.findIndex((p) => p.id == socket.id)!;
     setMe(me);
-
   }, [room]);
 
   function skipTurn() {
     socket.emit("skipTurn", room);
+    setCanSkip(false);
+  }
+
+  function buyCard(){
+    socket.emit('buyCard', room)
+    setCanSkip(true);
   }
 
   function getPosition(number: number){
@@ -81,10 +90,10 @@ export const CardTable = () => {
       { showModalColor ?  <ColorModal setColor={setNewColor} visible={showModalColor} /> : null}
       {/* <Card color="green" size={1} type={"plus4"} number={2} /> */}
       <div className="absolute bottom-20 left-30">
-        <CardsPlayer isBuy />
+        <CardsPlayer canBuy={!canSkip} player={room.players![me]} isMy buyCard={buyCard} isBuy />
       </div>
       <div>
-        <button onClick={skipTurn} disabled={room.players![me].name != room.playerTurn} className="bg-red-700 bottom-5 left-30 text-white w-[10rem] disabled:grayscale h-[2.5rem] absolute rounded">
+        <button onClick={() => canSkip ? skipTurn() : null} disabled={room.players![me].name != room.playerTurn || !canSkip} className="bg-red-700 bottom-5 left-30 text-white w-[10rem] disabled:grayscale h-[2.5rem] absolute rounded">
           Pular
         </button>
       </div>
@@ -92,7 +101,7 @@ export const CardTable = () => {
         <div className="h-full flex flex-col items-center justify-between ">
           <CardsPlayer player={room.players[getPosition(1)]} opponent={true} />
           <Card code={room.lastCard} size={1} />
-          <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
+          <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
         </div>
       )}
 
@@ -103,7 +112,7 @@ export const CardTable = () => {
             <CardsPlayer player={room.players[getPosition(1)]} opponent={true} />
           </div>
           <Card code={room.lastCard} size={1} />
-          <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
+          <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
         </div>
       )}
 
@@ -115,7 +124,7 @@ export const CardTable = () => {
           <div className="h-full flex flex-col items-center justify-between">
             <CardsPlayer player={room.players[getPosition(2)]} opponent={true} />
             <Card code={room.lastCard} size={1} />
-            <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
+            <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
           </div>
           <div className="flex-1 mt-[-12rem]">
             <CardsPlayer player={room.players[getPosition(1)]} opponent={true} />
@@ -131,7 +140,7 @@ export const CardTable = () => {
           </div>
           <div className="h-full flex flex-col items-center justify-between  pt-[7rem]">
             <Card code={room.lastCard} size={1} />
-            <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
+            <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[9rem] mt-[-12rem]">
             <CardsPlayer player={room.players[getPosition(2)]} opponent={true} />
@@ -149,7 +158,7 @@ export const CardTable = () => {
           <div className="h-full flex flex-col items-center justify-between  ">
             <CardsPlayer player={room.players[getPosition(3)]} opponent={true} />
             <Card code={room.lastCard} size={1} />
-            <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[getPosition(1)]} isMy={true} />
+            <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[getPosition(1)]} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[6rem] mt-[-12rem]">
             <CardsPlayer player={room.players[getPosition(2)]} opponent={true} />
@@ -167,7 +176,7 @@ export const CardTable = () => {
           </div>
           <div className="h-full flex flex-col items-center justify-between  pt-[7rem]">
             <Card code={room.lastCard} size={1} />
-            <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
+            <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
           </div>
           <div className="flex flex-col items-center justify-between gap-[3rem] mt-[-12rem]">
             <CardsPlayer player={room.players[getPosition(3)]} opponent={true} />
@@ -185,7 +194,7 @@ export const CardTable = () => {
             <CardsPlayer player={room.players[getPosition(7)]} opponent={true} />
           </div>
           <div className="h-full flex flex-col items-center justify-between ">
-            <CardsPlayer player={room.players[getPosition(4)]} opponent={true} />
+            <CardsPlayer setCanSkip={setCanSkip} player={room.players[getPosition(4)]} opponent={true} />
             <Card code={room.lastCard} size={1} />
             <CardsPlayer showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
           </div>

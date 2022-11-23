@@ -28,7 +28,18 @@ function App() {
     })
     
   }, [socket])
-
+  useEffect(() => {
+    setRoom({
+        code: 'PDZ2QS',
+        players: [
+          { id: 'PNdQcPNtEjrjBxPrAADT', name: 'Ale', isOwner: true },
+          { id: 'FgLo66ccLi65ZESeAADQ', name: 'Teste', isOwner: false }
+        ],
+        directionGame: 'right',
+        playersList: [ 'Ale', 'Teste' ],
+        playerTurn: 'Teste'
+    })
+  }, []);
 
   return (
     <BrowserRouter>

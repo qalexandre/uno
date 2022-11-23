@@ -35,6 +35,7 @@ export const Home = () => {
     });
 
     socket.on("startedGame", (room) => {
+      console.log(room)
       setRoom(room);
       navigation("/cardtable");
     });

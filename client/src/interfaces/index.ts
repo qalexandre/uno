@@ -22,6 +22,7 @@ export interface ServerToClientEvents {
     startedGame: (room: Group) => void;
     updateCards: (room: Group) => void
     skipedTurn: (room: Group) => void
+    boughtCard: (room: Group) => void
   }
   
   export interface ClientToServerEvents {
@@ -30,4 +31,5 @@ export interface ServerToClientEvents {
     startGame: (room: Group) => void;
     playCard: (card: string, room: Group, color: string) => void;
     skipTurn: (room: Group) => void;
+    buyCard: (room: Group) => void;
   }
