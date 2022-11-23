@@ -86,13 +86,14 @@ export const CardsPlayer = ({
   }
 
   if (isBuy) {
-    const cardsBuy = [1, 2, 3, 4, 5, 6];
+    const cardsBuy = room.cards!.slice(0, 5);
+    console.log('CARDS', cardsBuy)
 
     return (
       <div className="flex items-center justify-start">
         {cardsBuy.map((card, index) => (
           <div key={index} className={`mr-[-4rem]`}>
-            {index == 5 ? 
+            {index == (cardsBuy.length - 1) ? 
               isYourTurn &&  canBuy ? (
                 <div
                 onClick={buyCard}

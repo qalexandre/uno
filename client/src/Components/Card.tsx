@@ -14,6 +14,7 @@ type CardProps = {
   code?: string;
   isBack?: boolean;
   isBlock?: boolean;
+  hasShadow?: boolean;
   playCard?: (card: string) => void;
 };
 
@@ -21,7 +22,7 @@ type CardType = "block" | "reverse" | "plus2" | "plus4" | "normal" | "back" | "c
 
 type Color = "red" | "green" | "orange" | "gray";
 
-export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
+export const Card = ({ size, code, isBack, isBlock, playCard, hasShadow }: CardProps) => {
 
 
   const largeCard = size === 1
@@ -84,10 +85,11 @@ export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
       return (
         <div 
         onClick={() => !isBlock && playCard ? playCard(code!) : null}
-          className={clsx(`flex relative rounded font-card`,
+          className={clsx(`flex relative rounded font-card `,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
-            { 'brightness-50' : isBlock}
+            { 'brightness-50' : isBlock},
+            { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
           )}
           style={{ backgroundColor: getColor() }}
         >
@@ -113,7 +115,8 @@ export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
           className={clsx(`flex relative rounded font-skranji`,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
-            { 'brightness-50' : isBlock}
+            { 'brightness-50' : isBlock},
+            { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
           )}
           style={{ backgroundColor: getColor() }}
         >
@@ -136,7 +139,8 @@ export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
         className={clsx(`flex relative rounded font-card `,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
-          { 'brightness-50' : isBlock}
+          { 'brightness-50' : isBlock},
+          { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
         )}
         style={{ backgroundColor: getColor() }}
       >
@@ -162,7 +166,8 @@ export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
         className={clsx(`flex flex-col items-center justify-between relative  rounded font-skranji bg-gray-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
-          { 'brightness-50' : isBlock}
+          { 'brightness-50' : isBlock},
+          { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
         )}
         >
           <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard }, { 'px-[0.46rem] pt-[0.46rem]': smallCard })}>
@@ -187,7 +192,8 @@ export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
         className={clsx(`flex relative  rounded font-skranji bg-black-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
-          { 'brightness-50' : isBlock}
+          { 'brightness-50' : isBlock},
+          { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
         )}
         >
             <img src={plus4} className="w-full h-full" />
@@ -200,7 +206,8 @@ export const Card = ({ size, code, isBack, isBlock, playCard }: CardProps) => {
           className={clsx(`flex relative rounded font-card `,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
-            { 'brightness-50' : isBlock}
+            { 'brightness-50' : isBlock},
+            { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
 
           )}
           style={{ backgroundColor: getColor() }}

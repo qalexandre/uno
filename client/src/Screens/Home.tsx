@@ -11,6 +11,7 @@ import { ENDPOINT } from "../App";
 import axios from "axios";
 import { useRoom } from "../hooks/room";
 import { useNavigate } from "react-router-dom";
+import { Card } from "../Components/Card";
 
 export const Home = () => {
   const { socket, connected } = useSocket<
@@ -69,7 +70,6 @@ export const Home = () => {
 
   return (
     <div className="bg-background-pattern w-screen h-screen bg-cover bg-opacity-25 flex items-center justify-center">
-
       {isQueue ? (
         <Queue startGame={startGame} leftGroup={leftGroup} socketId={socket.id} room={room!} />
       ) : (

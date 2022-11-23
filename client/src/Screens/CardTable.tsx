@@ -81,6 +81,19 @@ export const CardTable = () => {
     setCardColor(card)
   }
 
+  const getColor = (code: string) => {
+    switch (code![1]) {
+      case "B":
+        return " bg-gray_card-100";
+      case "G":
+        return " bg-green_card-100";
+      case "O":
+        return "bg-orange_card-100";
+      case "R":
+        return " bg-red_card-100";
+    }
+  };
+
   return (
     <div
       className={clsx(
@@ -100,7 +113,9 @@ export const CardTable = () => {
       {room.players?.length == 2 && (
         <div className="h-full flex flex-col items-center justify-between ">
           <CardsPlayer player={room.players[getPosition(1)]} opponent={true} />
-          <Card code={room.lastCard} size={1} />
+          <div className={`w-[14rem] h-[14rem] ${getColor(room.lastCard!)} flex justify-center items-center rounded-full`}>
+          <Card hasShadow code={room.lastCard} size={1} />
+          </div>
           <CardsPlayer setCanSkip={setCanSkip} showModalColor={handleShowModalColor} lastCard={room.lastCard} player={room.players[me]} isMy={true} />
         </div>
       )}
