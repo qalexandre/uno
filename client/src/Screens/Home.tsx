@@ -71,12 +71,11 @@ export const Home = () => {
 
   return (
     <div className="bg-background-pattern w-screen h-screen bg-cover bg-opacity-25 flex items-center justify-center">
-      {/* {isQueue ? (
+      {isQueue ? (
         <Queue startGame={startGame} leftGroup={leftGroup} socketId={socket.id} room={room!} />
       ) : (
         <Join createGroup={createGroup} joinGroup={joinGroup} />
-      )} */}
-<PlusCard />
+      )}
     </div>
   );
 };
