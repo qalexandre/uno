@@ -125,6 +125,8 @@ export function generateCards(room: Group) {
     "CE",
     "FE",
     "CE",
+
+
   ];
   room.players?.map((player, index) => {
     let cardsSelected: string[] = [];
@@ -135,10 +137,15 @@ export function generateCards(room: Group) {
       cardsSelected.push(card);
     }
     room.players![index].cards = cardsSelected;
-    const last = Math.floor(Math.random() * cards.length);
-    room.lastCard = cards[last];
-    cards.splice(last, 1);
   });
+  let last = Math.floor(Math.random() * cards.length);
+  while(cards[last] == 'FE' || cards[last] == 'CE' ){
+    last = Math.floor(Math.random() * cards.length);
+  }
+  let turn = Math.floor(Math.random() * room.playersList?.length!);
+  room.lastCard = cards[last];
+  room.playerTurn = room.playersList![turn];
+  cards.splice(last, 1);
   room.cards = cards;
   return room;
 }
