@@ -28,6 +28,7 @@ export const Card = ({ size, code, isBack, isBlock, playCard, hasShadow }: CardP
   const largeCard = size === 1
   const smallCard = size === 2
   const opponentCard = size === 3
+  const modalCard = size === 4
   const getColor = () => {
     switch (code![1]) {
       case "B":
@@ -88,6 +89,7 @@ export const Card = ({ size, code, isBack, isBlock, playCard, hasShadow }: CardP
           className={clsx(`flex relative rounded font-card `,
             { 'w-w-largeCard h-h-largeCard': largeCard },
             { 'w-w-smallCard h-h-smallCard': smallCard },
+            
             { 'brightness-50' : isBlock},
             { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
           )}
@@ -167,21 +169,22 @@ export const Card = ({ size, code, isBack, isBlock, playCard, hasShadow }: CardP
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
           { 'brightness-50' : isBlock},
+          { 'w-w-tinyCard h-h-tinyCard': modalCard },
           { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
         )}
         >
-          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard }, { 'px-[0.46rem] pt-[0.46rem]': smallCard })}>
-            <div className={clsx('bg-gray_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })} ></div>
-            <div className={clsx('bg-orange_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })}></div>
+          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pt-2': largeCard }, { 'px-[0.46rem] pt-[0.46rem]': smallCard }, {'px-[0.26rem] pt-[0.26rem]': modalCard})}>
+            <div className={clsx('bg-gray_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard }, {'h-[0.42rem] w-[0.25rem]': modalCard})} ></div>
+            <div className={clsx('bg-orange_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard }, {'h-[0.42rem] w-[0.25rem]': modalCard})}></div>
           </div>
 
           <div className="flex items-center w-full h-full justify-center">
-            <img src={changeColor} className={clsx({ 'w-[2,87rem] h-[3.5rem]': largeCard }, { 'w-[2.31rem] h-[2.68rem]': smallCard })} />
+            <img src={changeColor} className={clsx({ 'w-[2,87rem] h-[3.5rem]': largeCard }, { 'w-[2.31rem] h-[2.68rem]': smallCard }, {'h-[1.2rem] w-[1.5rem]': modalCard})} />
           </div>
 
-          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pb-2': largeCard }, { 'px-[0.46rem] pb-[0.46rem]': smallCard })}>
-            <div className={clsx('bg-green_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })} ></div>
-            <div className={clsx('bg-red_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard })}></div>
+          <div className={clsx('flex items-center justify-between w-full', { 'px-2 pb-2': largeCard }, { 'px-[0.46rem] pb-[0.46rem]': smallCard }, {'px-[0.26rem] pb-[0.26rem]': modalCard})}>
+            <div className={clsx('bg-green_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard },{'h-[0.42rem] w-[0.25rem]': modalCard})} ></div>
+            <div className={clsx('bg-red_card-100', { 'h-3 w-2': largeCard }, { 'h-[0.62rem] w-[0.45rem]': smallCard }, {'h-[0.42rem] w-[0.25rem]': modalCard})}></div>
           </div>
         </div>
       );
@@ -192,6 +195,7 @@ export const Card = ({ size, code, isBack, isBlock, playCard, hasShadow }: CardP
         className={clsx(`flex relative  rounded font-skranji bg-black-900`,
           { 'w-w-largeCard h-h-largeCard': largeCard },
           { 'w-w-smallCard h-h-smallCard': smallCard },
+          { 'w-w-tinyCard h-h-tinyCard': modalCard },
           { 'brightness-50' : isBlock},
           { 'shadow-[6px_6px_6px_6px_rgba(0,0,0,0.2)]' : hasShadow}
         )}

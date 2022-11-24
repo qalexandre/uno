@@ -57,6 +57,8 @@ module.exports = {
         'w-smallCard': '5rem',
         'h-opponentCard': '4.5rem',
         'w-opponentCard': '3rem',
+        'h-tinyCard': '4rem',
+        'w-tinyCard': '2.5rem',
       }
     },
     backgroundImage: {

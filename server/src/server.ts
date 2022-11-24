@@ -3,7 +3,7 @@ import cors from "cors";
 import socket, { Socket } from "socket.io";
 import http from "http";
 import bp from "body-parser";
-import { buyCard, generateCards, makeid, nextTurn, verifyPower } from "./functions";
+import { buyCard, generateCards, makeid, nextTurn, verifyGameIsFinished, verifyPower } from "./functions";
 import { Group, Player } from "./interfaces";
 
 const app = express();
@@ -107,7 +107,11 @@ io.on("connection", (socket) => {
     const player = room.players?.findIndex(p => p.id == socket.id)
     const cardIndex =  room.players![player!].cards?.findIndex(c => c == card)
     room.players![player!].cards?.splice(cardIndex!, 1)
- 
+    const result = verifyGameIsFinished(room)
+    if(result != null) {
+      socket.emit('gameFinished', result, room)
+      return socket.to(room.code).emit('gameFinished', result, room)
+    }
     room = verifyPower(card, room, color)
     socket.to(room.code).emit("updateCards", room)
     socket.emit("updateCards", room)
@@ -124,6 +128,19 @@ io.on("connection", (socket) => {
     room = buyCard(player!, room)
     socket.to(room.code).emit("boughtCard", room)
     socket.emit("boughtCard", room)
+  })
+
+  socket.on('openModalColor', (room: Group, player: Player, card: string) => {
+    socket.to(room.code).emit('openedModalColor', room, player, card)
+    socket.emit('openedModalColor', room, player, card)
+  })
+
+  socket.on('selectColor', (color: string, room: Group) => {
+    socket.to(room.code).emit('selectedColor', color)
+  })
+
+  socket.on('closeModalColor', (room: Group) => {
+    socket.to(room.code).emit('closedModalColor')
   })
 
 });

@@ -12,6 +12,9 @@ import axios from "axios";
 import { useRoom } from "../hooks/room";
 import { useNavigate } from "react-router-dom";
 import { Card } from "../Components/Card";
+import { Teste } from "../Components/Teste";
+import { FinishedModal } from "../Components/FinishedModal";
+import { PlusCard } from "../Components/PlusCard";
 
 export const Home = () => {
   const { socket, connected } = useSocket<
@@ -36,7 +39,7 @@ export const Home = () => {
     });
 
     socket.on("startedGame", (room) => {
-      console.log(room)
+      console.log(room);
       setRoom(room);
       navigation("/cardtable");
     });
@@ -66,15 +69,14 @@ export const Home = () => {
     socket.emit("startGame", room);
   };
 
-
-
   return (
     <div className="bg-background-pattern w-screen h-screen bg-cover bg-opacity-25 flex items-center justify-center">
-      {isQueue ? (
+      {/* {isQueue ? (
         <Queue startGame={startGame} leftGroup={leftGroup} socketId={socket.id} room={room!} />
       ) : (
         <Join createGroup={createGroup} joinGroup={joinGroup} />
-      )}
+      )} */}
+<PlusCard />
     </div>
   );
 };

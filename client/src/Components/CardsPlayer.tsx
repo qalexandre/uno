@@ -6,6 +6,7 @@ import { Card } from "../Components/Card";
 import { useRoom } from "../hooks/room";
 import {
   ClientToServerEvents,
+  Group,
   Player,
   ServerToClientEvents,
 } from "../interfaces";
@@ -17,7 +18,7 @@ type CardProps = {
   cards?: string[];
   player?: Player;
   lastCard?: string;
-  showModalColor?: (card: string) => void;
+  showModalColor?: (room: Group, player: Player, card: string) => void;
   buyCard?: () => void;
   setCanSkip?: (value: boolean) => void;
   canBuy?: boolean;
@@ -71,7 +72,10 @@ export const CardsPlayer = ({
   function playCard(card: string) {
     setCanSkip && setCanSkip(false);
     if (card == "FE" || card == "CE")
-      return showModalColor && showModalColor(card);
+     {
+      socket.emit('openModalColor', room, player!, card)
+      return showModalColor && showModalColor(room, player!, card)
+     } ;
     socket.emit("playCard", card, room, card[1]);
   }
 

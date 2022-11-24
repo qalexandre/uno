@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { Player } from "../interfaces";
 import { Card } from "./Card";
 
 type ColorModalProps = {
@@ -8,18 +7,14 @@ type ColorModalProps = {
   card: string;
   colorSelected: string;
   canChoose?: boolean;
-  setColor: (color: string) => void;
-  player?: Player;
 };
 
-export const ColorModal = ({
+export const Teste = ({
   card,
   colorSelected,
   myTurn,
   visible,
-  canChoose,
-  setColor,
-  player
+  canChoose
 }: ColorModalProps) => {
   return (
     <div
@@ -41,7 +36,7 @@ export const ColorModal = ({
                   </div>
                 ) : (
                   <div className="items-center justify-center flex flex-col">
-                    <p className="text-white mb-3">{player?.name}⠀jogou</p>
+                    <p className="text-white mb-3">Player⠀jogou</p>
                     <Card size={4} code={card} />
                     <p className="text-white mt-3">Escolhendo...</p>
                   </div>
@@ -50,7 +45,6 @@ export const ColorModal = ({
                 <div className="rotate-45">
                   <div className="w-[201px]">
                     <div
-                    onClick={() => canChoose && setColor('R')}
                       className={clsx(
                         "brightness-[0.6] w-[100px] h-[100px]  transition-all ease-in bg-red_card-100 block relative border-none rounded-tl-[100%] float-left",
                         {
@@ -61,7 +55,6 @@ export const ColorModal = ({
                       )}
                     ></div>
                     <div
-                    onClick={() => canChoose && setColor('B')}
                       className={clsx(
                         "brightness-[0.6] w-[100px] h-[100px]  transition-all ease-in bg-gray_card-100 block relative border-none rounded-tr-[100%] float-right",
                         {
@@ -74,7 +67,6 @@ export const ColorModal = ({
                   </div>
                   <div className="w-[201px]">
                     <div
-                    onClick={() => canChoose && setColor('G')}
                       className={clsx(
                         "brightness-[0.6] w-[100px] h-[100px]  transition-all ease-in bg-green_card-100 block relative border-none rounded-bl-[100%] float-left",
                         {
@@ -85,7 +77,6 @@ export const ColorModal = ({
                       )}
                     ></div>
                     <div
-                    onClick={() => canChoose && setColor('O')}
                       className={clsx(
                         "brightness-[0.6] w-[100px] h-[100px]  transition-all ease-in bg-orange_card-100 block relative border-none rounded-br-[100%] float-right",
                         {

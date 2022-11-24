@@ -1,5 +1,5 @@
 import { getCards } from "./data";
-import { Group, Player } from "./interfaces";
+import { Group, Loser, Player, Result } from "./interfaces";
 
 export function makeid(length: number) {
   var result = "";
@@ -34,97 +34,97 @@ export function generateCards(room: Group) {
     "5O",
     "6O",
     "7O",
-    // "8O",
-    // "9O",
-    // "BO",
-    // "RO",
-    // "DO",
-    // "0G",
-    // "1G",
-    // "2G",
-    // "3G",
-    // "4G",
-    // "5G",
-    // "6G",
-    // "7G",
-    // "8G",
-    // "9G",
-    // "BG",
-    // "RG",
-    // "DG",
-    // "0G",
-    // "1G",
-    // "2G",
-    // "3G",
-    // "4G",
-    // "5G",
-    // "6G",
-    // "7G",
-    // "8G",
-    // "9G",
-    // "BG",
-    // "RG",
-    // "DG",
-    // "0R",
-    // "1R",
-    // "2R",
-    // "3R",
-    // "4R",
-    // "5R",
-    // "6R",
-    // "7R",
-    // "8R",
-    // "9R",
-    // "BR",
-    // "RR",
-    // "DR",
-    // "0R",
-    // "1R",
-    // "2R",
-    // "3R",
-    // "4R",
-    // "5R",
-    // "6R",
-    // "7R",
-    // "8R",
-    // "9R",
-    // "BR",
-    // "RR",
-    // "DR",
-    // "0B",
-    // "1B",
-    // "2B",
-    // "3B",
-    // "4B",
-    // "5B",
-    // "6B",
-    // "7B",
-    // "8B",
-    // "9B",
-    // "BB",
-    // "RB",
-    // "DB",
-    // "0B",
-    // "1B",
-    // "2B",
-    // "3B",
-    // "4B",
-    // "5B",
-    // "6B",
-    // "7B",
-    // "8B",
-    // "9B",
-    // "BB",
-    // "RB",
-    // "DB",
-    // "FE",
-    // "CE",
-    // "FE",
-    // "CE",
-    // "FE",
-    // "CE",
-    // "FE",
-    // "CE",
+    "8O",
+    "9O",
+    "BO",
+    "RO",
+    "DO",
+    "0G",
+    "1G",
+    "2G",
+    "3G",
+    "4G",
+    "5G",
+    "6G",
+    "7G",
+    "8G",
+    "9G",
+    "BG",
+    "RG",
+    "DG",
+    "0G",
+    "1G",
+    "2G",
+    "3G",
+    "4G",
+    "5G",
+    "6G",
+    "7G",
+    "8G",
+    "9G",
+    "BG",
+    "RG",
+    "DG",
+    "0R",
+    "1R",
+    "2R",
+    "3R",
+    "4R",
+    "5R",
+    "6R",
+    "7R",
+    "8R",
+    "9R",
+    "BR",
+    "RR",
+    "DR",
+    "0R",
+    "1R",
+    "2R",
+    "3R",
+    "4R",
+    "5R",
+    "6R",
+    "7R",
+    "8R",
+    "9R",
+    "BR",
+    "RR",
+    "DR",
+    "0B",
+    "1B",
+    "2B",
+    "3B",
+    "4B",
+    "5B",
+    "6B",
+    "7B",
+    "8B",
+    "9B",
+    "BB",
+    "RB",
+    "DB",
+    "0B",
+    "1B",
+    "2B",
+    "3B",
+    "4B",
+    "5B",
+    "6B",
+    "7B",
+    "8B",
+    "9B",
+    "BB",
+    "RB",
+    "DB",
+    "FE",
+    "CE",
+    "FE",
+    "CE",
+    "FE",
+    "CE",
+    "FE",
+    "CE",
   ];
   room.players?.map((player, index) => {
     let cardsSelected: string[] = [];
@@ -169,30 +169,32 @@ export function verifyPower(card: string, room: Group, color?: string) {
     case "R":
       room.directionGame = room.directionGame == "right" ? "left" : "right";
       break;
-    case 'F':
-        room = buyCards(4, room)
-        room.lastCard = 'F' + color;
-        break;
-    case 'D':
-        room = buyCards(2, room);
-        break;
-    case 'C':
-        room.lastCard = 'C' + color;
-        break;
+    case "F":
+      room = buyCards(4, room);
+      room.lastCard = "F" + color;
+      break;
+    case "D":
+      room = buyCards(2, room);
+      break;
+    case "C":
+      room.lastCard = "C" + color;
+      break;
     default:
       null;
   }
 
-  function buyCards(number: number, room: Group){
+  function buyCards(number: number, room: Group) {
     let nextPlayerIndex: number;
     if (room.directionGame == "right") {
-        nextPlayerIndex = room.players!.findIndex((p) => p.name == room.playerTurn)! + 1;
-        if (nextPlayerIndex >= room.playersList!.length) nextPlayerIndex = 0;
-    }else{
-        nextPlayerIndex = room.players!.findIndex((p) => p.name == room.playerTurn)! - 1;
-        if (nextPlayerIndex < 0) nextPlayerIndex = room.playersList!.length - 1
+      nextPlayerIndex =
+        room.players!.findIndex((p) => p.name == room.playerTurn)! + 1;
+      if (nextPlayerIndex >= room.playersList!.length) nextPlayerIndex = 0;
+    } else {
+      nextPlayerIndex =
+        room.players!.findIndex((p) => p.name == room.playerTurn)! - 1;
+      if (nextPlayerIndex < 0) nextPlayerIndex = room.playersList!.length - 1;
     }
-    console.log(nextPlayerIndex)
+    console.log(nextPlayerIndex);
     for (var i = 0; i < number; i++) {
       const index = Math.floor(Math.random() * room.cards!.length);
       const card = room.cards![index];
@@ -201,16 +203,34 @@ export function verifyPower(card: string, room: Group, color?: string) {
     }
     return room;
   }
-  
 
   return nextTurn(room);
 }
-export function buyCard(playerIndex: number, room: Group){
-    
+export function buyCard(playerIndex: number, room: Group) {
   const index = Math.floor(Math.random() * room.cards!.length);
   const card = room.cards![index];
   room.cards!.splice(index, 1);
   room.players![playerIndex].cards?.push(card);
 
   return room;
+}
+
+export function verifyGameIsFinished(room: Group) {
+  const player = room.players?.find((p) => p.name == room.playerTurn);
+  if (player?.cards?.length! < 1) {
+    const losers: Loser[] = [];
+    room.players?.map((p) => {
+      if (p.name == player?.name) return;
+      losers.push({
+        name: p.name,
+        leftCards: p.cards?.length!,
+      });
+    });
+    const result: Result = {
+      winner: player!,
+      losers,
+    };
+    return result;
+  }
+  return null;
 }

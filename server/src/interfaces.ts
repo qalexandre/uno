@@ -14,3 +14,13 @@ export type Player = {
     cards?: string[]; 
     isOwner: boolean;
 }
+
+export type Result = {
+    winner: Player;
+    losers: Loser[]
+}
+
+export type Loser = {
+    name: string;
+    leftCards: number;
+}
